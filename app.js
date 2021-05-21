@@ -7,6 +7,7 @@ app.get('/', function(req, res) {
 });
 
 users = [];
+
 io.on('connection', function(socket) {
    console.log('A user connected');
    socket.on('setUsername', function(data) {
@@ -23,9 +24,22 @@ io.on('connection', function(socket) {
    socket.on('msg', function(data) {
       //Send message to everyone
       io.sockets.emit('newmsg', data);
+      //for sending message to everyone except own
+      // socket.broadcast.emit('newmsg', data);
+
    })
 });
 
 http.listen(3000, function() {
    console.log('listening on localhost:3000');
 });
+
+/* 
+socket.emit:  This method is responsible for sending messages.
+
+socket.on:  This method is responsible for receive messages.
+
+io.socket.emit: io.sockets.emit will send message to all the clients
+
+socket.broadcast.emit: it send to all client except own
+*/
